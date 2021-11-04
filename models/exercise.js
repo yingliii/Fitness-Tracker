@@ -7,9 +7,13 @@ const Schema = mongoose.Schema;
 const ExerciseSchema = new Schema({
   type: {
     type: String,
+    trim: true,
+    required: 'Enter an exercise type',
   },
   name: {
     type: String,
+    trim: ture,
+    required: 'Enter an exercise name',
   },
   duration: {
     type: Number,
