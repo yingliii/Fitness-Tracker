@@ -3,6 +3,9 @@ const router = require('express').Router();
 
 // GET getLastWorkouts
 router.get('/api/workouts', (req, res) => {
+  console.log('ALL WORKOUTS');
+  console.log(workout);
+
   db.Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
