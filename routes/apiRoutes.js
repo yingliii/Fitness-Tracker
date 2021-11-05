@@ -17,7 +17,7 @@ router.get('/api/workouts', (req, res) => {
 });
 
 // ADD addExercises by id
-router.get('/api/workouts:id', (req, res) => {
+router.put('/api/workouts:id', (req, res) => {
   db.Workout.findOneAndUpdate(
     { _id: req.params.id },
     {
@@ -33,6 +33,7 @@ router.get('/api/workouts:id', (req, res) => {
     })
     .catch((err) => {
       res.json(err);
+      console.log(err);
     });
 });
 // CREATE createWorkout
