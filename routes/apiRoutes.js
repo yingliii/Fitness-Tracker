@@ -4,12 +4,12 @@ const router = require('express').Router();
 // GET getLastWorkouts
 router.get('/api/workouts', (req, res) => {
   console.log('ALL WORKOUTS');
-  console.log(workout);
 
   db.Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
       res.status(200).json(workout);
+      console.log('Successfully get workout', workout);
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -17,11 +17,12 @@ router.get('/api/workouts', (req, res) => {
 });
 
 // ADD addExercises by id
-router.put('/api/workouts:id', (req, res) => {
-  db.Workout.findOneAndUpdate(
-    { _id: req.params.id },
+router.put('/api/workouts/:id', (req, res) => {
+  console.log('put exercise', req.body, req.params.id);
+  db.Workout.findByIdAndUpdate(
+    req.params.id,
     {
-      $inc: { totalDuration: req.body.duration },
+      // $inc: { totalDuration: req.body.duration },
       $push: { exercises: req.body },
     },
     {
@@ -30,17 +31,20 @@ router.put('/api/workouts:id', (req, res) => {
   )
     .then((workout) => {
       res.json(workout);
+      console.log('Successfully add workout');
     })
     .catch((err) => {
       res.json(err);
       console.log(err);
     });
 });
+
 // CREATE createWorkout
-router.post('/api/workouts', ({ body }, res) => {
-  db.Workout.create(body)
+router.post('/api/workouts', (req, res) => {
+  db.Workout.create({})
     .then((workout) => {
       res.json(workout);
+      console.log('Successfully create workout');
     })
     .catch((err) => {
       res.json(err);
@@ -48,11 +52,12 @@ router.post('/api/workouts', ({ body }, res) => {
 });
 
 // GET getWorkoutsInRange
-router.get('/api/workouts', (req, res) => {
+router.get('/api/workouts/range', (req, res) => {
   db.Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
       res.status(200).json(workout);
+      console.log('successfully get workouts in range!', workout);
     })
     .catch((err) => {
       res.status(400).json(err);
