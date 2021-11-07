@@ -12,14 +12,10 @@ const WorkoutSchema = new Schema({
   },
   // creating exercise details
   exercises: [
-    // {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Exercise',
-    // },
-    // {
-    //   toObject: { virtuals: true },
-    //   toJSON: { virtuals: true },
-    // },
+    {
+      toObject: { virtuals: true },
+      toJSON: { virtuals: true },
+    },
     {
       type: {
         type: String,
@@ -50,13 +46,13 @@ const WorkoutSchema = new Schema({
   ],
 });
 
-// WorkoutSchema.virtual('totalDuration').get(function () {
-//   let totalDuration = 0;
-//   this.exercises.forEach((el) => {
-//     totalDuration += el.duration;
-//   });
-//   return totalDuration;
-// });
+WorkoutSchema.virtual('totalDuration').get(function () {
+  let totalDuration = 0;
+  this.exercises.forEach((el) => {
+    totalDuration += el.duration;
+  });
+  return totalDuration;
+});
 
 const Workout = mongoose.model('Workout', WorkoutSchema);
 
