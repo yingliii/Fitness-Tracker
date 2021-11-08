@@ -8,6 +8,13 @@ router.get('/api/workouts', (req, res) => {
   db.Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
+      workout.forEach((workoutRange) => {
+        var total = 0;
+        workoutRange.exercises.forEach((e) => {
+          total += e.duration;
+        });
+        workoutRange.totalDUration = total;
+      });
       res.status(200).json(workout);
       console.log('Successfully get workout', workout);
     })
@@ -22,7 +29,7 @@ router.put('/api/workouts/:id', (req, res) => {
   db.Workout.findByIdAndUpdate(
     req.params.id,
     {
-      // $inc: { totalDuration: req.body.duration },
+      $inc: { totalDuration: req.body.duration },
       $push: { exercises: req.body },
     },
     {
